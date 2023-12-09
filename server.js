@@ -663,7 +663,6 @@ app.post('/delivery-done', (req, res) => {
                     axios.post(infobipUrl, data, { headers: headers })
                         .then(response => {
                             console.log(response.data);
-                            res.sendStatus(200);
                         })
                         .catch(err => {
                             console.error(err);

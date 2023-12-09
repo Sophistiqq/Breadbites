@@ -1,0 +1,48 @@
+<div class="edit-product-modal">
+        <form id="edit-product-form" action="./admin-edit-product" method="POST">
+            <h2>Edit Product</h2>
+            <input type="hidden" id="edit-product-id" name="edit-product-id">
+            <div class="inputfield">
+                <label for="edit-productname">Product Name</label>
+                <input type="text" id="edit-productname" name="edit-productname" required>
+            </div>
+            <div class="inputfield">
+                <label for="edit-image">Image</label>
+                <input type="file" id="edit-image" name="edit-image" required>
+            </div>
+            <div class="inputfield">
+                <label for="edit-category">Category</label>
+                <select id="edit-category" name="edit-category" required>
+                    <option value="sc">Slice Cake</option>
+                    <option value="cc">Cupcake</option>
+                    <option value="md">Mini-Donut</option>
+                </select>
+            </div>
+            <div class="inputfield">
+                <label for="edit-qtystocks">Quantity in Stocks</label>
+                <input type="text" id="edit-qtystocks" name="edit-qtystocks" required>
+            </div>
+            <div class="inputfield">
+                <label for="edit-description">Product Description</label>
+                <input type="text" id="edit-description" name="edit-description" required>
+            </div>
+            <div class="inputfield">
+                <label for="edit-price">Price</label>
+                <input type="text" id="edit-price" name="edit-price" required>
+            </div>
+            <button type="submit">Save Changes</button>
+            <button class="close-button" id="close-button-edit">Close</button>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    

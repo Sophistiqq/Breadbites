@@ -124,9 +124,14 @@
     .product-info p {
         font-size: .7rem;
         text-align: center;
+        margin: 0;
     }
     .pinfo {
         display: none;
+    }
+    .add-to-cart {
+        font-size: .5rem !important;
+        margin: 0;
     }
     .cart-modal {
         position: fixed;

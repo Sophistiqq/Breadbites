@@ -52,7 +52,7 @@
     </header>
 
 
-    
+
 
     <main>
         <div class="main">
@@ -101,7 +101,8 @@
                     <div class="inputfield">
                         <label for="signin-username">Username</label>
                         <input type="text" class="username" name="username" id="signin-username" required
-                            autocomplete="username" pattern="[a-zA-Z0-9]+" title="Only alphanumeric characters are allowed">
+                            autocomplete="username" pattern="[a-zA-Z0-9]+"
+                            title="Only alphanumeric characters are allowed">
                     </div>
                     <div class="inputfield">
                         <label for="signin-password">Password</label>
@@ -129,12 +130,13 @@
                     <div class="inputfield">
                         <label for="register-password">Password</label>
                         <input type="password" name="password" id="register-password" required
-                            autocomplete="new-password" pattern=".{8,}" title="Password must be at least 8 characters long">
+                            autocomplete="new-password" pattern=".{8,}"
+                            title="Password must be at least 8 characters long">
                     </div>
                     <div class="inputfield">
                         <label for="register-contact_number">Contact Number</label>
-                        <input type="tel" name="contact_number" id="register-contact_number" required
-                            autocomplete="tel" pattern="[0-9]+" title="Only numeric characters are allowed">
+                        <input type="tel" name="contact_number" id="register-contact_number" required autocomplete="tel"
+                            pattern="\+639\d{9}" title="Please enter a valid PH phone number starting with +639">
                     </div>
                     <div class="inputfield">
                         <label for="register-address">Address</label>

@@ -1,0 +1,1012 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+    --text-color: #ECEFF4;
+    --bg-color: #2E3440;
+    --primary-color: #88C0D0;
+    --secondary-color: #4C566A;
+    --accent: #BF616A;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background-color: #000000;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg %3E%3Cpolygon fill='%23222222' points='800 100 0 200 0 800 1600 800 1600 200'/%3E%3Cpolygon fill='%23444444' points='800 200 0 400 0 800 1600 800 1600 400'/%3E%3Cpolygon fill='%23666666' points='800 300 0 600 0 800 1600 800 1600 600'/%3E%3Cpolygon fill='%23888888' points='1600 800 800 400 0 800'/%3E%3Cpolygon fill='%23aaaaaa' points='1280 800 800 500 320 800'/%3E%3Cpolygon fill='%23cccccc' points='533.3 800 1066.7 800 800 600'/%3E%3Cpolygon fill='%23EEE' points='684.1 800 914.3 800 800 700'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+.nav {
+    width: 15vw;
+    height: 100vh;
+    background-color: rgba(244, 244, 244, 0.75);
+    /* Updated background color with transparency */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    position: fixed;
+}
+
+.nav .nav-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.nav .nav-links a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    font-weight: bold;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav .nav-links a:hover {
+    color: var(--accent);
+}
+
+.nav .nav-links a::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    bottom: -5px;
+    /* Adjust the value to move the line down */
+}
+
+.nav .nav-links a:hover::before {
+    transform: scaleX(1);
+    bottom: -5px;
+    /* Adjust the value to move the line down */
+}
+
+.nav .nav-links a::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    bottom: -5px;
+    /* Adjust the value to move the line down */
+}
+
+.nav .nav-links a:hover::after {
+    transform: scaleX(1);
+    bottom: -5px;
+    /* Adjust the value to move the line down */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .logo {
+        display: none;
+    }
+    .nav {
+        width: 100%;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        padding: 1rem;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .nav .nav-links {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .nav .nav-links a {
+        font-size: 1rem;
+    }
+    body {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100vw;
+    margin: 1rem;
+    margin-left: 16vw;
+    width: 100%;
+}
+
+main>* {
+    min-height: 80vh;
+    background-color: var(--secondary-color);
+}
+
+
+.overview {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+
+
+
+.add-user-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.add-user-modal.show {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+#add-user-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background-color: white;
+    padding: 3rem;
+    border-radius: 8px;
+    width: clamp(300px, 80%, 500px);
+    margin: 0 auto;
+}
+
+#add-user-form h2 {
+    margin-bottom: 1rem;
+}
+
+.inputfield {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inputfield label {
+    font-weight: bold;
+}
+
+.inputfield input,
+.inputfield select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+button[type="submit"] {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+select:hover {
+    border-color: var(--accent);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+option {
+    border-radius: 0;
+}
+
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+
+/* FILEPATH: /c:/Users/roifo/Desktop/Website/Website/public/css/dashboard.css */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tbody tr:hover {
+    background-color: #e6e6e6;
+}
+
+.user-row.highlight {
+    background-color: var(--accent);
+}
+
+
+
+
+
+
+.edit-user-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.edit-user-modal.show {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#edit-user-form {
+    position: relative;
+    /* Added */
+    width: 80%;
+    max-width: 600px;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 4px;
+}
+
+#edit-user-form h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.inputfield {
+    margin-bottom: 1rem;
+}
+
+.inputfield label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.inputfield input,
+.inputfield select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.inputfield input[type="submit"],
+.inputfield button {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.inputfield input[type="submit"]:hover,
+.inputfield button:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+.close-button {
+    position: absolute;
+    /* Added */
+    top: 1rem;
+    /* Adjust as needed */
+    right: 1rem;
+    /* Adjust as needed */
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+
+
+
+
+
+
+
+
+.products {
+    margin: 1em 0;
+    min-width: 300px;
+    overflow: auto;
+    max-height: 600px;
+    /* Adjust the max height as needed */
+}
+
+.product-controls {
+    position: sticky;
+    top: 0;
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    z-index: 1;
+}
+
+.product-controls button {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Added */
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.product-controls button:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+.products-table {
+    width: 100%;
+    background: #F2F2F2;
+    color: #333333;
+    border-radius: .4em;
+    overflow: hidden;
+}
+
+.products-table th,
+.products-table td {
+    padding: .5em 1em;
+}
+
+.products-table th {
+    display: none;
+}
+
+.products-table td:before {
+    color: #dd5;
+    content: attr(data-th)": ";
+    font-weight: bold;
+    width: 6.5em;
+    display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+
+    .products-table th,
+    .products-table td {
+        display: block;
+        padding: 1em !important;
+    }
+
+    .products-table td:first-child {
+        padding-top: .5em;
+    }
+
+    .products-table td:last-child {
+        padding-bottom: .5em;
+    }
+
+    .products-table td:before {
+        display: none;
+    }
+}
+
+/* Your CSS rules for the specified minimum width */
+.products-table th,
+.products-table td {
+    display: table-cell;
+    padding: 1em !important;
+    text-align: left;
+    /* Removed text-align property */
+}
+
+.products-table td:first-child {
+    padding-top: .5em;
+}
+
+.products-table td:last-child {
+    padding-bottom: .5em;
+}
+
+.products-table td:before {
+    display: none;
+}
+
+/* Additional styling for the products page */
+#products-section {
+    padding: 0 2em;
+    font-family: Montserrat, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color: #444;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: .4em;
+}
+
+#products-section h1 {
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+}
+
+.product-row {
+    border-top: 1px solid lighten(#34495E, 10%);
+    border-bottom: 1px solid lighten(#34495E, 10%);
+}
+
+.product-row.highlight {
+    background-color: var(--accent);
+
+}
+
+#products-section h1 {
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+    padding: 1em 0;
+}
+
+
+
+.users {
+    margin: 1em 0;
+    min-width: 300px;
+    overflow: auto;
+    max-height: 600px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: .4em;
+}
+
+.user-controls {
+    position: sticky;
+    top: 0;
+    margin-bottom: 1em;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    z-index: 1;
+}
+
+.user-controls button {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Added */
+    width: 100%;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1em;
+    transition: background-color 0.3s ease;
+}
+
+.user-controls button:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+.users-table {
+    width: 100%;
+    background: #F2F2F2;
+    color: #333333;
+    border-radius: .4em;
+    overflow: hidden;
+}
+
+.users-table th,
+.users-table td {
+    padding: .5em 1em;
+}
+
+.users-table th {
+    display: none;
+}
+
+.users-table td:before {
+    color: #dd5;
+    content: attr(data-th)": ";
+    font-weight: bold;
+    width: 6.5em;
+    display: inline-block;
+}
+
+@media screen and (max-width: 768px) {
+
+    .users-table th,
+    .users-table td {
+        display: block;
+        padding: 1em !important;
+    }
+
+    .users-table td:first-child {
+        padding-top: .5em;
+    }
+
+    .users-table td:last-child {
+        padding-bottom: .5em;
+    }
+
+    .users-table td:before {
+        display: none;
+    }
+}
+
+/* Your CSS rules for the specified minimum width */
+.users-table th,
+.users-table td {
+    display: table-cell;
+    padding: 1em !important;
+    text-align: left;
+    /* Removed text-align property */
+}
+
+.users-table td:first-child {
+    padding-top: .5em;
+}
+
+.users-table td:last-child {
+    padding-bottom: .5em;
+}
+
+.users-table td:before {
+    display: none;
+}
+
+/* Additional styling for the users page */
+#users-section {
+    padding: 0 2em;
+    font-family: Montserrat, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    color: #444;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+#users-section h1 {
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+}
+
+.user-row {
+    border-top: 1px solid lighten(#34495E, 10%);
+    border-bottom: 1px solid lighten(#34495E, 10%);
+}
+
+#users-section h1 {
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+    padding: 1em 0;
+}
+
+
+
+
+
+
+
+
+
+
+.overview {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 2em;
+    font-family: Montserrat, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    min-height: auto;
+}
+
+.overview h1 {
+    margin-bottom: 20px;
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+    padding: 1em 0;
+}
+
+.overview-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.overview-item {
+    background-color: #E6E6E6;
+    /* Updated background color */
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.overview-item h2 {
+    margin-bottom: 10px;
+}
+
+.overview-item p {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    /* Updated font color */
+}
+
+.overview-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+.add-product-modal,
+.edit-product-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.add-product-modal.show,
+.edit-product-modal.show {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+#add-product-form,
+#edit-product-form {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    background-color: white;
+    padding: 3rem;
+    border-radius: 8px;
+    width: clamp(300px, 80%, 500px);
+    margin: 0 auto;
+}
+
+#add-product-form h2,
+#edit-product-form h2 {
+    margin-bottom: 1rem;
+}
+
+.inputfield {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.inputfield label {
+    font-weight: bold;
+}
+
+.inputfield input,
+.inputfield select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button[type="submit"] {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+select:hover {
+    border-color: var(--accent);
+}
+
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+option {
+    border-radius: 0;
+}
+
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.close-button:hover {
+    background-color: var(--accent);
+    color: var(--text-color);
+}
+
+
+
+/* TRANSACTIONS */
+.transactions-table {
+    /* width: 100%; */
+    border-collapse: separate;
+    border-spacing: 0 1rem;
+}
+
+.transactions-table th {
+    padding: 1rem;
+    text-align: left;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.transactions-table thead tr th {
+    background-color: var(--bg-color);
+}
+
+.transactions-table tbody tr td {
+    background-color: var(--text-color);
+}
+
+#transactions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 2em;
+    font-family: Montserrat, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    min-height: auto;
+    overflow: auto;
+}
+
+#transactions h1 {
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+    padding: 1em 0;
+}
+
+/* FILEPATH: /c:/Users/roifo/Desktop/Website/Website/public/css/dashboard.css */
+
+.products select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.products select:hover {
+    border-color: var(--accent);
+}
+
+.products select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color);
+}
+
+.products option {
+    border-radius: 0;
+}   
+
+
+
+/* Style this too
+<div id="order-history">
+            <h1>Order History</h1>
+            <table class="order-history-table">
+                <thead>
+                    <tr>
+                        <th class="order-id">Order ID</th>
+                        <th class="customer">Customer</th>
+                        <th class="delivery-date">Delivery Date</th>
+                        <th class="delivery-time">Delivery Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orderHistory.forEach(function(order) { %>
+                        <tr>
+                            <td class="order-id"><%= order.id %></td>
+                            <td class="customer"><%= order.fullname %></td> <!-- Display user's name instead of their ID -->
+                            <td class="delivery-date"><%= order.delivery_date %></td>
+                            <td class="delivery-time"><%= order.delivery_time %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+*/
+
+
+
+#order-history {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #333;
+    border: 1px solid #ccc;
+    padding: 2em;
+    font-family: Montserrat, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(5px);
+    border-radius: 10px;
+    min-height: auto;
+    overflow: auto;
+}
+
+#order-history h1 {
+    font-weight: normal;
+    letter-spacing: -1px;
+    color: #34495E;
+    padding: 1em 0;
+}

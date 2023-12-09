@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deliveries</title>
+    <link rel="stylesheet" href="/css/orders.css">
+    <link rel="stylesheet" href="/css/delivery-orders.css">
+</head>
+
+<body>
+    <header>
+        <nav class="nav">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="./images/bread 1.png" alt="logo">
+                <div class="brand">
+                    <p>BreadBites</p>
+                    <p>Affordable Bakery</p>
+                </div>
+            </div>
+            <div class="links">
+                <a href="/">Home</a>
+                <a href="/products">Products</a>
+                <a href="/#about">About</a>
+
+            </div>
+            <a href="/logout" class="logout" title="Log out"><img src="/images/logout.png" alt="Logout"></a>
+        </nav>
+
+    </header>
+
+    <!-- Displaying Orders -->
+    <div class="orders">
+        <% transactions.forEach(transaction=> { %>
+            <div class="transaction">
+                <h3>Transaction ID: <strong>
+                        <%= transaction.id %>
+                    </strong></h3>
+                <p><strong>Customer:</strong>
+                    <%= transaction.fullname %>
+                </p>
+                <p><strong>Contact Number:</strong>
+                    <%= transaction.contact_number %>
+                </p>
+                <p><strong>Delivery Date:</strong>
+                    <%= transaction.delivery_date %>
+                </p>
+                <p><strong>Delivery Time:</strong>
+                    <%= transaction.delivery_time %>
+                </p>
+                <div class="product-orders">
+                    <button class="dropdown-button">Products</button>
+                    <div class="dropdown-content">
+                        <% transaction.productOrders.forEach(productOrder=> { %>
+                            <div class="product-order">
+                                <p><strong>Product:</strong>
+                                    <%= productOrder.productName %>
+                                </p>
+                                <p><strong>Price:</strong>
+                                    <%= productOrder.price %>
+                                </p>
+                                <p><strong>Quantity:</strong>
+                                    <%= productOrder.quantity %>
+                                </p>
+                                <p><strong>Total Price:</strong>
+                                    <%= productOrder.totalPrice %>
+                                </p>
+                            </div>
+                            <% }) %>
+                    </div>
+                </div>
+                <p><strong>Total Price:</strong>
+                    <%= transaction.totalPrice %>
+                </p>
+                <div class="buttons">
+                    <!-- Delivery Done Form -->
+                    <form action="/delivery-done" method="POST">
+                        <input type="hidden" name="orderId" value="<%= transaction.id %>">
+                        <input type="hidden" name="contactNumber" value="<%= transaction.contact_number %>">
+                        <button type="submit" class="delivered-button">Delivery Done</button>
+                    </form>
+
+                    <!-- Cancel Order Form -->
+                    <form action="/cancel-order" method="POST">
+                        <input type="hidden" name="orderId" value="<%= transaction.id %>">
+                        <input type="hidden" name="contactNumber" value="<%= transaction.contact_number %>">
+                        <button type="submit" class="cancel-button">Cancel</button>
+                    </form>
+                </div>
+            </div>
+            <% }) %>
+    </div>
+
+</body>
+
+<script>
+    document.querySelectorAll('.dropdown-button').forEach(button => {
+        button.addEventListener('click', (event) => {
+            const dropdownContent = event.target.nextElementSibling;
+            dropdownContent.style.maxHeight = dropdownContent.style.maxHeight === '0px' ? '500px' : '0px';
+        });
+    });
+
+    // Handle the Delivery Done button click
+    $('.delivered-button').click(function () {
+        var transactionId = $(this).parent().find('input[name="orderId"]').val();
+        var contactNumber = $(this).parent().find('input[name="contactNumber"]').val();
+        var button = $(this); // Store the button that was clicked
+
+        $.ajax({
+            url: '/delivery-done',
+            method: 'POST',
+            data: { orderId: transactionId, contactNumber: contactNumber },
+            success: function () {
+                alert('Delivery marked as done!');
+                button.closest('tr').remove(); // Remove the row
+            },
+            error: function () {
+                alert('An error occurred while marking the delivery as done.');
+            }
+        });
+    });
+
+    // Handle the Cancel button click
+    $('.cancel-button').click(function () {
+        var transactionId = $(this).parent().find('input[name="orderId"]').val();
+        var contactNumber = $(this).parent().find('input[name="contactNumber"]').val();
+        var button = $(this); // Store the button that was clicked
+
+        $.ajax({
+            url: '/cancel-order',
+            method: 'POST',
+            data: { orderId: transactionId, contactNumber: contactNumber },
+            success: function () {
+                alert('Order cancelled!');
+                button.closest('tr').remove(); // Remove the row
+            },
+            error: function () {
+                alert('An error occurred while cancelling the order.');
+            }
+        });
+    });
+</script>
+
+</html>

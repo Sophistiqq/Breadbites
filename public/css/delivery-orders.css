@@ -1,0 +1,114 @@
+:root {
+    --text-color: #434343;
+    --bg-color: #FFE49D;
+    --primary-color: #EDB343;
+    --secondary-color: #F4F4F4;
+    --accent: #FF5252;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+}
+
+.orders {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin: 20px;
+}
+
+.transaction {
+    background-color: var(--bg-color);
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.transaction h3 {
+    color: var(--text-color);
+}
+
+.transaction p {
+    color: var(--text-color);
+}
+
+.product-orders {
+    margin-top: 20px;
+}
+
+.dropdown-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.dropdown-content {
+    max-height: 0;
+    overflow: auto;
+    transition: max-height 0.5s ease-out;
+    margin-top: 10px;
+    border-top: 1px solid var(--secondary-color);
+    padding-top: 10px;
+}
+
+.dropdown-button:hover {
+    background-color: var(--accent);
+    color: white;
+}
+
+.dropdown-content {
+    margin-top: 10px;
+    border-top: 1px solid var(--secondary-color);
+    padding-top: 10px;
+}
+
+.product-order {
+    margin-top: 10px;
+}
+
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.delivered-button, .cancel-button {
+    padding: 10px 20px;
+    border: none;
+    margin-left: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.delivered-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.delivered-button:hover {
+    background-color: #45a049;
+}
+
+.cancel-button {
+    background-color: #f44336; /* Red */
+    color: white;
+}
+
+.cancel-button:hover {
+    background-color: #da190b;
+}
+
+/* Phone View */
+@media (max-width: 600px) {
+    .orders {
+        grid-template-columns: 1fr;
+    }
+}

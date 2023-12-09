@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap');
+
+
+:root {
+    --text-color: #434343;
+    --bg-color: #FFE49D;
+    --primary-color: #EDB343;
+    --secondary-color: #F4F4F4;
+    --accent: #FF5252;
+    --font-family: 'Poppins';
+}
+
+.checkout-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    z-index: 12312;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto; /* Added this line to make the container scrollable */
+}
+.checkout-form-container.show {
+    opacity: 1;
+    pointer-events: all;
+    visibility: visible;
+}
+
+.checkout-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--secondary-color);
+    padding: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 1rem;
+}
+
+.checkout-cart,
+.delivery-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-items {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.checkout-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap:1rem;
+}
+.checkout-buttons button {
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.checkout-buttons button:hover {
+    background-color: var(--accent);
+}
+.delivery-options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}
+.checkout-total {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--primary-color);
+}
+
+
+.address-input input{
+    width: 100%;
+}
+
+#checkout-cart-items {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+}
+
+#checkout-cart-items th,
+#checkout-cart-items td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid var(--secondary-color);
+}
+
+#checkout-cart-items th {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+#checkout-cart-items tbody tr:nth-child(even) {
+    background-color: var(--secondary-color);
+}
+
+#checkout-cart-items tbody tr:hover {
+    background-color: var(--accent);
+    color: var(--secondary-color);
+}
+

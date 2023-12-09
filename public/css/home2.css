@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap');
+
+:root {
+    --text-color: #434343;
+    --bg-color: #FFE49D;
+    --primary-color: #EDB343;
+    --secondary-color: #F4F4F4;
+    --accent: #FF5252;
+    --font-family: 'Poppins';
+}
+
+body {
+    font-family: var(--font-family);
+}
+
+.second-section {
+    padding: 2rem;
+    background-color: var(--secondary-color);
+    transform: skewY(-3deg);
+}
+
+.second-section > * {
+    transform: skewY(3deg);
+}
+
+.second-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--text-color);
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+    height: 40rem;
+    width: 20rem;
+    margin-bottom: 2rem;
+    background-color: var(--secondary-color);
+    border-style: solid;
+    border-width: 1px;
+    border-color: #43434358;
+}
+
+.product img {
+    width: 100%;
+    height: 20rem;
+    object-fit: contain;
+    border-radius: 1rem;
+}
+
+.product h3 {
+    margin: 1rem 0;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.product p {
+    color: #666;
+}
+
+.product button {
+    margin-top: 1rem;
+    padding: 0.5rem 0.75rem;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-weight: 700;
+}
+
+.product button a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.product button:hover {
+    background-color: var(--accent);
+}
+
+@media only screen and (max-width: 680px) {
+    .product {
+        padding: 0.5rem;
+        height: auto;
+    }
+
+    .product img {
+        height: 10rem;
+    }
+
+    .product h3,
+    .product p {
+        margin: 0.5rem 0;
+    }
+
+    .product button {
+        margin-top: 0.5rem;
+    }
+}
+
+.about-section {
+    padding: 2rem;
+    margin-block: 10rem;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    transform: skewY(-3deg);
+}
+
+.about-section > * {
+    transform: skewY(3deg);
+}
+
+.about-section h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.about-content {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.about-content .layout {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 1rem;
+}
+.layout > * {
+    border-radius: 1rem;
+    border: 1px solid var(--text-color);
+    flex: 1;
+    padding: 1rem;
+    min-height: 13rem;
+}
+.layout p img {
+    max-width: 100%;
+    height: auto;
+    max-height: 6rem;
+    float: left;
+    margin-right: 1rem;
+}
+footer {
+    background-color: var(--bg-color);
+    width: 100%;
+    height: 10vw;
+    position: fixed;
+    bottom: 0;
+    z-index: -11;
+}
+
+.error {
+    color: red;
+    font-size: .7rem;
+}
+.leftside {
+    font-size:  1.5rem;
+}
+.leftside img {
+    max-width: 100%;
+    height: auto;
+    max-height: 6rem;
+    float: left;
+    margin-right: 1rem;
+}
+
+.bottomest {
+    font-size: 1.5rem;
+    width: 100%;
+    margin-top: 2rem;
+    text-align: center;        
+}
+.bottomest a {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 2rem;
+    margin-top: 2rem;
+    transition: background-color 0.3s ease;
+}
+
+.bottomest a:hover {
+    background-color: var(--primary-color);
+}
+
+@media (max-width: 680px) {
+    .about-content {
+        flex-direction: column;
+    }
+    main {
+        margin-block: 4rem;
+    }
+    .second-section {
+        padding-block: 4rem;
+        background-color: var(--secondary-color);
+        transform: skewY(-3deg);
+    }
+    .about-content .layout {
+        flex-direction: column;
+    }
+}

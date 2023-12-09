@@ -1,0 +1,190 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap');
+
+
+:root {
+    --text-color: #434343;
+    --bg-color: #FFE49D;
+    --primary-color: #EDB343;
+    --secondary-color: #F4F4F4;
+    --accent: #FF5252;
+}
+
+/* CSS */
+@media screen and (max-width: 680px) {
+    .sections {
+        display: none;
+    }
+
+    .mobile-view {
+        display: flex;
+    }
+}
+
+@media screen and (min-width: 680px) {
+    .sections {
+        display: flex;
+    }
+
+    .mobile-view {
+        display: none;
+    }
+}
+
+/* Hide the close button by default */
+.close-modal {
+    display: none;
+
+}
+
+@media screen and (max-width: 680px) {
+    .products-body {
+        all: unset;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .categories {
+        all: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* linear gradient to bottom */
+        background: linear-gradient(to bottom, rgba(244, 244, 244, 0.3), rgba(237, 179, 67, 0.8));
+        width: 100%;
+        /* Add this line to make it full width */
+    }
+
+    .categories-link {
+        all: unset;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .categories .categories-link a {
+        font-size: 1rem;
+        padding: 0.5rem;
+    }
+
+    .categories .categories-link a:hover {
+        background: transparent;
+    }
+
+    .categories .categories-link a.active {
+        background: none;
+    }
+
+    .mobile-view {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 1rem;
+        padding: .5rem;
+        height: 100svh;
+    }
+
+    .product {
+        all: unset;
+        width: 100%;
+        height: 100%;
+        position: relative;
+    }
+
+    .product img {
+        all: unset;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .product-info {
+        all: unset;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        color: white;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .product-info h1 {
+        font-family: 'Poppins';
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px #000000;
+        text-align: center;
+        line-height: 1.5;
+    }
+    .product-info p {
+        font-size: 1rem;
+        text-align: center;
+    }
+    .pinfo {
+        display: none;
+    }
+    .cart-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 999;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+    }
+
+    .cart-modal .cart {
+        height: 80%;
+    }
+
+    /* Show the close button on small screens */
+    .close-modal {
+        display: block;
+        padding: 1rem;
+        border-radius: 1rem;
+        cursor: pointer;
+        color: white;
+        background-color: var(--accent);
+        border: none;
+        outline: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .close-modal:hover {
+        background-color: var(--primary-color);
+    }
+
+}
+
+
+/* Hide the button by default */
+.mobile-only {
+    display: none;
+    padding: 10px 20px;
+    background-color: var(--primary-color); /* Green background */
+    border: none;
+    color: var(--text-color); /* White text */
+    text-align: center;
+    text-decoration: none;
+    font-size: 1rem;
+    margin: 4px 2px;
+    transition-duration: 0.4s; /* Transition effect */
+    cursor: pointer; /* Add a pointer cursor on hover */
+}
+
+.mobile-only:hover {
+    background-color: #45a049; /* Darker green on hover */
+    color: white; /* White text */
+}
+
+@media screen and (max-width: 680px) {
+    .mobile-only {
+        display: block;
+    }
+}

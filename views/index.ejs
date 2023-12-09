@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BreadBites: Home</title>
+    <link rel="stylesheet" href="./css/home.css">
+    <link rel="stylesheet" href="./css/home2.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js"></script>
+    <script src="./scripts/home.js" defer></script>
+    <script type="text/script" src="./scripts/validation.js"></script>
+    <script src="./scripts/scroll.js" type="module"></script>
+</head>
+
+<body>
+    <header id="home">
+        <nav class="nav">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="/images/bread 1.png" alt="logo">
+                <div class="brand">
+                    <p>BreadBites</p>
+                    <p>Affordable Bakery</p>
+                </div>
+            </div>
+            <!-- Navigation -->
+            <div class="links">
+                <a href="/products#mini-donuts">Products</a>
+                <a href="/orders">My Orders</a>
+                <a href="#about">About</a>
+            </div>
+            <% if (loggedIn) { %>
+                <% if (role==="admin" ) { %>
+                    <div class="button-wrapper">
+                        <a href="/delivery-orders" class="adminBtn">Deliveries</a>
+                        <a href="/admin" class="adminBtn">Admin Panel</a>
+                        <a href="/logout" class="logout" title="Log out"><img src="/images/logout.png" alt=""></a>
+                    </div>
+                    <% } else { %>
+                        <div class="button-wrapper">
+                            <a href="/logout" class="logout" title="Log out"><img src="/images/logout.png" alt=""></a>
+                        </div>
+                        <% } %>
+                            <% } else { %>
+                                <div class="button-wrapper">
+                                    <button class="signinBtn" id="signInBtn">Sign In</button>
+                                </div>
+                                <% } %>
+        </nav>
+    </header>
+
+
+    
+
+    <main>
+        <div class="main">
+            <div class="hero-section">
+                <div>
+                    <h1 class="title"><span>BreadBites</span>: Affordable Bakery</h1>
+                    <p class="motto">Indulge in Irresistible Delights, Without Breaking the Bank </p>
+                </div>
+
+                <p class="description">Explore our delectable selection of slice cakes,<br> mini donuts, and cupcakes,
+                    all
+                    crafted with care <br>and offered at unbeatable prices.
+                    <br><br>At BreadBites, we believe in quality without compromise.
+                </p>
+
+            </div>
+            <div class="contacts-section">
+                <h3>Contact us @</h3>
+                <!-- button links -->
+                <div class="contact-links">
+                    <!-- facebook, messenger, twitter, gmail -->
+                    <a target="_blank" href="https://www.facebook.com/"><img src="/images/facebook.png"
+                            alt="facebook"></a>
+                    <a target="_blank" href="https://www.messenger.com/"><img src="/images/messenger.png"
+                            alt="messenger"></a>
+                    <a target="_blank" href="https://twitter.com/"><img src="/images/twitter.png" alt="twitter"></a>
+                    <a target="_blank" href="https://mail.google.com/"><img src="/images/gmail.png" alt="gmail"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="right">
+            <a href="/products" class="donut"><img src="/images/Donut-removebg-preview 1.png" alt="Donut"
+                    id="donutmalaki"></a>
+            <div class="arrow">
+                <h3>Click here to see our Donuts</h3>
+                <img src="/images/arrow.png" alt="">
+            </div>
+        </div>
+
+
+        <div class="popup">
+            <div class="forms">
+                <form action="/login" method="post" class="signin">
+                    <h1>Sign In</h1>
+                    <div class="inputfield">
+                        <label for="signin-username">Username</label>
+                        <input type="text" class="username" name="username" id="signin-username" required
+                            autocomplete="username" pattern="[a-zA-Z0-9]+" title="Only alphanumeric characters are allowed">
+                    </div>
+                    <div class="inputfield">
+                        <label for="signin-password">Password</label>
+                        <input type="password" class="password" name="password" id="signin-password" required
+                            autocomplete="current-password">
+                    </div>
+                    <button type="submit">Sign In</button>
+                </form>
+
+                <form action="/register" method="post" class="register hide">
+                    <h1>Register</h1>
+                    <div class="inputfield">
+                        <label for="register-fullname">Name</label>
+                        <input type="text" name="fullname" id="register-fullname" required autocomplete="name">
+                    </div>
+                    <div class="inputfield">
+                        <label for="register-username">Username</label>
+                        <input type="text" name="username" id="register-username" required autocomplete="username"
+                            pattern="[a-zA-Z0-9]+" title="Only alphanumeric characters are allowed">
+                    </div>
+                    <div class="inputfield">
+                        <label for="register-email">Email</label>
+                        <input type="email" name="email" id="register-email" required autocomplete="email">
+                    </div>
+                    <div class="inputfield">
+                        <label for="register-password">Password</label>
+                        <input type="password" name="password" id="register-password" required
+                            autocomplete="new-password" pattern=".{8,}" title="Password must be at least 8 characters long">
+                    </div>
+                    <div class="inputfield">
+                        <label for="register-contact_number">Contact Number</label>
+                        <input type="tel" name="contact_number" id="register-contact_number" required
+                            autocomplete="tel" pattern="[0-9]+" title="Only numeric characters are allowed">
+                    </div>
+                    <div class="inputfield">
+                        <label for="register-address">Address</label>
+                        <input type="text" name="address" id="register-address" required autocomplete="street-address">
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+                <button id="closeBtn">Close</button>
+                <button id="signinOrRegister">Register</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="second-section">
+        <h2>Our Other Products</h2>
+        <div class="products">
+            <div class="product">
+                <img src="/images/products-home/cupcake.png" alt="Cupcake">
+                <h3>Cupcakes</h3>
+                <p>Our cupcakes are baked fresh daily and come in a variety of flavors. Perfect for any occasion or just
+                    as a sweet treat.</p>
+                <button><a href="/products#cupcakes">See our Cupcakes</a></button>
+            </div>
+            <div class="product">
+                <img src="./images/products-home/sliced-cake.png" alt="Slice Cake">
+                <h3>Slice Cakes</h3>
+                <p>Our slice cakes are made with the finest ingredients and are perfect for sharing with friends and
+                    family.</p>
+                <button><a href="/products#sliced-cake">See our Slice Cakes</a></button>
+            </div>
+            <div class="product">
+                <img src="/images/products-home/mini-donut.png" alt="Mini Donut">
+                <h3>Mini Donuts</h3>
+                <p>Our mini donuts are the perfect size for snacking and come in a variety of flavors. Try them all!</p>
+                <button><a href="/products#mini-donuts">See our Mini Donuts</a></button>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section" id="about">
+        <h2>About Us</h2>
+        <div class="about-content">
+            <p class="leftside">
+                <img src="/images/youth.png" alt="">
+                We are Group 4 in BSIT-3B, developing an e-commerce bakery website called Breadbites: Crafting an
+                Affordable E-commerce Bakery as part of our studies in the Bachelor of Science in Information Technology
+                program.
+
+            </p>
+            <div class="layout">
+                <p><img src="/images/goal.png" alt="">We aim to launch Breadbites as an easy-to-use e-commerce platform
+                    for ordering fresh, customizable baked goods online.</p>
+                <p><img src="/images/delivery.png" alt="">The products available on Breadbites include mini donuts,
+                    sliced cakes, and cupcakes in a variety of flavors.
+                </p>
+            </div>
+        </div>
+        <div class="bottomest">
+            <p>By collaborating on this project, we are gaining valuable real-world experience in areas
+                like programming, database design, and project management. We look forward to applying our diverse
+                skills
+                and knowledge to build an effective bakery e-commerce system.
+            </p>
+            <a href="#home">Go back to top </a>
+        </div>
+    </div>
+    <footer></footer>
+    <img src="/images/bread 1.png" alt="" class="logo-footer">
+</body>
+
+</html>

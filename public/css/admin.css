@@ -1,0 +1,89 @@
+@import url('home.css');
+
+:root {
+    --text-color: #434343;
+    --bg-color: #FFE49D;
+    --primary-color: #EDB343;
+    --secondary-color: #F4F4F4;
+    --accent: #FF5252;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* set svg from images/Background.svg */
+    background-image: url('../images/Background.svg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-color);
+    height: 100vh;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--secondary-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid var(--text-color);
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--accent);
+}
+
+a.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+    position: absolute;
+    bottom: 20px;
+}
+
+a.back-button:hover {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}

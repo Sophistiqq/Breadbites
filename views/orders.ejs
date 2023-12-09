@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="/css/orders.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="./images/bread 1.png" alt="logo">
+                <div class="brand">
+                    <p>BreadBites</p>
+                    <p>Affordable Bakery</p>
+                </div>
+            </div>
+            <div class="links">
+                <a href="/">Home</a>
+                <a href="/products">Products</a>
+                <a href="/#about">About</a>
+            
+            </div>
+            <a href="/logout" class="logout" title="Log out"><img src="/images/logout.png" alt="Logout"></a>
+        </nav>
+
+    </header>
+
+    <div id="transactions">
+        <h1>My Orders</h1>
+        <table class="transactions-table">
+            <thead>
+                <tr>
+                    <th class="order-id">Order ID</th>
+                    <th class="products">Products</th>
+                    <th class="delivery-date">Delivery Date</th>
+                    <th class="delivery-time">Delivery Time</th>
+                    <th class="quantity">Total Quantity</th>
+                    <th class="price">Price</th>
+                    <th class="total-price">Total Price</th>
+                    <th class="edit">Edit</th>
+                    <th class="cancel">Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% transactions.forEach(function(transaction) { %>
+                    <tr>
+                        <td class="order-id"><%= transaction.id %></td>
+                        <td class="products">
+                            <select>
+                                <% transaction.productOrders.forEach(function(productOrder) { %>
+                                    <option><%= productOrder.productName %></option>
+                                <% }); %>
+                            </select>
+                        </td>
+                        <td class="delivery-date"><%= new Date(transaction.delivery_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %></td>
+                        <td class="delivery-time"><%= new Date('1970-01-01T' + transaction.delivery_time + 'Z').toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></td>
+                        <td class="quantity"><%= transaction.totalQuantity %></td>
+                        <td class="price"><%= transaction.productOrders[0].price %></td>
+                        <td class="total-price"><%= transaction.totalPrice %></td>
+                        <td class="edit"><a href="#">Edit</a></td>
+                        <td class="cancel"><a href="#" class="cancel-link" data-order-id="<%= transaction.id %>">Cancel</a></td>                
+                    </tr>
+                <% }); %>
+            </tbody>
+
+        </table>
+    </div>
+
+    <div id="transactions-mobile" class="transactions-mobile">
+        <h1>My Orders</h1>
+        <% transactions.forEach(function(transaction) { %>
+            <div class="transaction">
+                
+                <div class="transaction-details">
+                    <span class="order-id"><b>Order ID:</b> <%= transaction.id %></span>
+                    <div class="product">
+                        <span class="label">Products:</span>
+                        <select>
+                            <% transaction.productOrders.forEach(function(productOrder) { %>
+                                <option><%= productOrder.productName %></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="delivery-date">
+                        <span class="label">Delivery Date:</span>
+                        <span class="value"><%= new Date(transaction.delivery_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %></span>
+                    </div>
+                    <div class="delivery-time">
+                        <span class="label">Delivery Time:</span>
+                        <span class="value"><%= new Date('1970-01-01T' + transaction.delivery_time + 'Z').toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></span>
+                    </div>
+                    <div class="quantity">
+                        <span class="label">Total Quantity:</span>
+                        <span class="value"><%= transaction.totalQuantity %></span>
+                    </div>
+                    <div class="price">
+                        <span class="label">Price:</span>
+                        <span class="value"><%= transaction.productOrders[0].price %></span>
+                    </div>
+                    <div class="total-price">
+                        <span class="label">Total Price:</span>
+                        <span class="value"><%= transaction.totalPrice %></span>
+                    </div>
+                    <div class="delivery-address">
+                        <span class="label">Delivery Address:</span>
+                        <span class="value"><%= transaction.delivery_address %></span>
+                    </div>
+                </div>
+                <div class="transaction-control">
+                    
+                    <span class="edit"><a href="#">Edit</a></span>
+                    <span class="cancel"><a href="#" class="cancel-link" data-order-id="<%= transaction.id %>">Cancel</a></span>
+                </div>
+            </div>
+        <% }); %>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="editForm">
+                <div class="input-fields">
+                    <label for="editOrderId">Order ID</label>
+                    <input type="text" id="editOrderId" name="editOrderId" readonly>
+                </div>
+                <div class="input-fields">
+                    <label for="deliveryDate">Delivery Date</label>
+                    <input type="date" id="deliveryDate" name="deliveryDate">
+                </div>
+                <div class="input-fields">
+                    <label for="deliveryTime">Delivery Time</label>
+                    <input type="time" id="deliveryTime" name="deliveryTime">
+                </div>
+
+                <input type="hidden" id="editOrderId">
+                <input type="submit" value="Update Order">
+            </form>
+        </div>
+    </div>
+</body>
+<script src="./scripts/orders.js"></script>
+</html>

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products</title>
+    <!-- use css from public folder -->
+    <link rel="stylesheet" href="./css/products-page.css">
+    <link rel="stylesheet" href="./css/products-page-phone.css">
+    <link rel="stylesheet" href="./css/checkoutpopup.css">
+    <script src="./scripts/products.js" defer></script>
+
+    
+</head>
+
+<body>
+    <header>
+        <nav class="nav">
+            <!-- Logo -->
+            <div class="logo">
+                <img src="./images/bread 1.png" alt="logo">
+                <div class="brand">
+                    <p>BreadBites</p>
+                    <p>Affordable Bakery</p>
+                </div>
+            </div>
+            <div class="links">
+                <a href="/">Home</a>
+                <a href="/orders">My Orders</a>
+                <a href="/#about">About</a>
+            
+            </div>
+            <% if (loggedIn) { %>
+                <% if (role==="admin" ) { %>
+                    <div class="button-wrapper">
+                        <button class="adminBtn cartBtn mobile-only">Open Cart</button>
+                        <a href="/delivery-orders" class="adminBtn">Deliveries</a>                        
+                        <a href="/admin" class="adminBtn">Admin Panel</a>
+                        <a href="/logout" class="logout" title="Log out"><img src="/images/logout.png" alt=""></a>
+                    </div>
+                    <% } else { %>
+                        <div class="button-wrapper">
+                            <button class="adminBtn cartBtn mobile-only">Open Cart</button>
+                            <a href="#" class="profileBtn">Profile</a>
+                            <a href="/logout" class="logout" title="Log out"><img src="/images/logout.png" alt=""></a>
+                        </div>
+                        <% } %>
+                            <% } else { %>
+                                <div class="button-wrapper">
+                                    <button class="signinBtn" id="signInBtn">Sign In</button>
+                                </div>
+                                <% } %>
+        </nav>
+
+    </header>
+
+    
+        <!-- profile Popup -->
+        <div class="profile-modal">
+            <div class="modal-content">
+                <button class="close-button">Close</button>
+                <h2 class="modal-title">Profile Information</h2>
+                <div class="modal-item">
+                    <p class="item-label">Username:</p>
+                    <p class="item-value"><%= session.username %></p>
+                </div>
+                <div class="modal-item">
+                    <p class="item-label">Email:</p>
+                    <p class="item-value"><%= session.email %></p>
+                </div>
+                <div class="modal-item">
+                    <p class="item-label">Contact Number:</p>
+                    <p class="item-value"><%= session.contact_number %></p>
+                </div>
+                <div class="modal-item">
+                    <p class="item-label">Address:</p>
+                    <p class="item-value"><%= session.address %></p>
+                </div>
+                <div class="modal-item">
+                    <p class="item-label">Full Name:</p>
+                    <p class="item-value"><%= session.fullname %></p>
+                </div>
+                <button class="change-password-button">Change Password</button>
+
+                <div class="change-password-modal">
+                    <div class="modal-content">
+                        <button class="close-button">Close</button>
+                        <h2 class="modal-title">Change Password</h2>
+                        <form id="change-password-form">
+                            <div class="modal-item">
+                                <label for="current-password" class="item-label">Current Password:</label>
+                                <input type="password" id="current-password" class="item-value" required>
+                            </div>
+                            <div class="modal-item">
+                                <label for="new-password" class="item-label">New Password:</label>
+                                <input type="password" id="new-password" class="item-value" required>
+                            </div>
+                            <div class="modal-item">
+                                <label for="confirm-password" class="item-label">Confirm New Password:</label>
+                                <input type="password" id="confirm-password" class="item-value" required>
+                            </div>
+                            <button type="submit" class="submit-button">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+
+    <!-- For signins -->
+    <div class="popup">
+        <div class="forms">
+            <form action="/login" method="post" class="signin">
+                <h1>Sign In</h1>
+                <div class="inputfield">
+                    <label for="signin-username">Username</label>
+                    <input type="text" class="username" name="username" id="signin-username" required
+                        autocomplete="username" pattern="[a-zA-Z0-9]+" title="Only alphanumeric characters are allowed">
+                </div>
+                <div class="inputfield">
+                    <label for="signin-password">Password</label>
+                    <input type="password" class="password" name="password" id="signin-password" required
+                        autocomplete="current-password">
+                </div>
+                <button type="submit">Sign In</button>
+            </form>
+
+            <form action="/register" method="post" class="register hide">
+                <h1>Register</h1>
+                <div class="inputfield">
+                    <label for="register-fullname">Name</label>
+                    <input type="text" name="fullname" id="register-fullname" required autocomplete="name">
+                </div>
+                <div class="inputfield">
+                    <label for="register-username">Username</label>
+                    <input type="text" name="username" id="register-username" required autocomplete="username"
+                        pattern="[a-zA-Z0-9]+" title="Only alphanumeric characters are allowed">
+                </div>
+                <div class="inputfield">
+                    <label for="register-email">Email</label>
+                    <input type="email" name="email" id="register-email" required autocomplete="email">
+                </div>
+                <div class="inputfield">
+                    <label for="register-password">Password</label>
+                    <input type="password" name="password" id="register-password" required autocomplete="new-password"
+                        pattern=".{8,}" title="Password must be at least 8 characters long">
+                </div>
+                <div class="inputfield">
+                    <label for="register-contact_number">Contact Number</label>
+                    <input type="tel" name="contact_number" id="register-contact_number" required autocomplete="tel"
+                        pattern="[0-9]+" title="Only numeric characters are allowed">
+                </div>
+                <div class="inputfield">
+                    <label for="register-address">Address</label>
+                    <input type="text" name="address" id="register-address" required autocomplete="street-address">
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            <button id="closeBtn">Close</button>
+            <button id="signinOrRegister">Register</button>
+        </div>
+    </div>
+
+    <nav class="categories">
+        <div class="categories-link">
+            <a href="#mini-donuts">Mini-Donuts</a>
+            <a href="#sliced-cake">Sliced Cake</a>
+            <a href="#cupcakes">Cupcakes</a>
+        </div>
+    </nav>
+
+    <div class="products-body">
+
+        <div class="products">
+            <section class="sections" id="mini-donuts">
+                <% products.filter(product=> product.category === 'md').forEach((product, index) => { %>
+                    <div class="product">
+                        <img src="<%= product.image_loc %>" alt="Product Image">
+                        <div class="product-info">
+                            <h1>
+                                <%= product.product_name %>
+                            </h1>
+                            <p>
+                                <%= product.product_description %>
+                            </p>
+                            <p>Price: <%= product.price %>
+                            <p>Stocks: <%= product.qty_stocks %></p> <!-- Add this line -->
+                            </p>
+                            <button class="add-to-cart" data-product-id="<%= product.id %>">Add to Cart</button>
+                            <div class="navigation-buttons">
+                                <% if (index> 0) { %>
+                                    <button class="previous-product">Previous</button>
+                                    <% } %>
+                                        <% if (index < products.filter(product=> product.category === 'md').length - 1)
+                                            { %>
+                                            <button class="next-product">Next</button>
+                                            <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+            </section>
+
+            <section class="sections" id="sliced-cake">
+                <% products.filter(product=> product.category === 'sc').forEach((product, index) => { %>
+                    <div class="product">
+                        <img src="<%= product.image_loc %>" alt="Product Image">
+                        <div class="product-info">
+                            <h1>
+                                <%= product.product_name %>
+                            </h1>
+                            <p>
+                                <%= product.product_description %>
+                            </p>
+                            <p>Price: <%= product.price %>
+                            <p>Stocks: <%= product.qty_stocks %></p> <!-- Add this line -->
+                            </p>
+                            <button class="add-to-cart" data-product-id="<%= product.id %>">Add to Cart</button>
+                            <div class="navigation-buttons">
+                                <% if (index> 0) { %>
+                                    <button class="previous-product">Previous</button>
+                                    <% } %>
+                                        <% if (index < products.filter(product=> product.category === 'sc').length - 1)
+                                            { %>
+                                            <button class="next-product">Next</button>
+                                            <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+            </section>
+
+            <section class="sections" id="cupcakes">
+                <% products.filter(product=> product.category === 'cc').forEach((product, index) => { %>
+                    <div class="product">
+                        <img src="<%= product.image_loc %>" alt="Product Image">
+                        <div class="product-info">
+                            <h1>
+                                <%= product.product_name %>
+                            </h1>
+                            <p>
+                                <%= product.product_description %>
+                            </p>
+                            <p>Price: <%= product.price %>
+                            <p>Stocks: <%= product.qty_stocks %></p> <!-- Add this line -->
+                            </p>
+                            <button class="add-to-cart" data-product-id="<%= product.id %>">Add to Cart</button>
+                            <div class="navigation-buttons">
+                                <% if (index> 0) { %>
+                                    <button class="previous-product">Previous</button>
+                                    <% } %>
+                                        <% if (index < products.filter(product=> product.category === 'cc').length - 1)
+                                            { %>
+                                            <button class="next-product">Next</button>
+                                            <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+            </section>
+
+            <section class="mobile-view" id="all-products">
+                <% products.forEach((product, index)=> { %>
+                    <div class="product">
+                        <img src="<%= product.image_loc %>" alt="Product Image">
+                        <div class="product-info">
+                            <h1>
+                                <%= product.product_name %>
+                            </h1>
+                            <p class="pinfo">
+                                <%= product.product_description %>
+                            </p>
+                            <p>Price: <%= product.price %>
+                            <p>Stockss: <%= product.qty_stocks %></p> <!-- Add this line -->
+                            </p>
+                            <button class="add-to-cart" data-product-id="<%= product.id %>">Add to Cart</button>
+                        </div>
+                    </div>
+                    <% }); %>
+            </section>
+        </div>
+
+        <div class="cart-modal">
+            <div class="cart">
+                <% if (!loggedIn) { %>
+                    <div class="cart-content-not-logged-in">
+                        <p>Please login first to use the Cart</p>
+                        <button class="signinBtn" id="signInBtn">Sign In</button>
+                    </div>
+                    <% } else { %>
+                        <p>Welcome, <%= username %>!</p>
+                        <h3 class="total-cost">Total Cost: ₱<span id="totalCostAmount">0.00</span></h3>
+                        <div class="cart-content">
+                            <ul></ul>
+                            <button class="checkoutBtn">Checkout</button>
+                        </div>
+                        <button class="close-modal" id="closeModalBtn">Close</button>
+                        <% } %>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="checkout-form-container">
+        <form id="checkout-form" action="/checkout" method="POST">
+            <div class="checkout-container">
+                <h1>Check your Orders</h1>
+                <div class="checkout-cart">
+                    <h2 class="checkout-heading">Your Cart</h2>
+                    <table id="checkout-cart-items" class="cart-items">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Cart items should be dynamically added here  -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="delivery-options">
+                    <h2 class="checkout-heading">Delivery Options</h2>
+                    
+                    <div class="delivery-address-wrapper">
+                        <div class="delivery-address">
+                            <div class="address-options">
+                                <input type="radio" id="my-address" name="addressOption" value="my-address" checked>
+                                <label for="my-address">My Address</label>
+                                <input type="radio" id="another-address" name="addressOption" value="another-address">
+                                <label for="another-address">Another Address</label>
+                            </div>
+                            <div class="address-input">
+                                <input type="text" id="delivery-address" name="deliveryAddress" placeholder="Enter delivery address" disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="delivery-date">
+                        <label for="delivery-date">Choose a delivery date:</label>
+                        <input type="date" id="delivery-date" name="deliveryDate">
+                    </div>
+                    <div class="delivery-time">
+                        <label for="delivery-time">Choose a delivery time:</label>
+                        <input type="time" id="delivery-time" name="deliveryTime">
+                    </div>
+                </div>
+                <div class="checkout-total">
+                    <h2 class="checkout-heading">Total Price: ₱<span id="checkout-total-price">0.00</span></h2>
+                    <div class="checkout-buttons">
+                        <button id="checkout-cancel" type="button">Cancel</button>
+                        <button type="submit" id="checkout-confirm">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+<script>
+    var userId = "<%- JSON.stringify(id) %>";
+</script>
+</body>
+<script>
+    let checkoutButton = document.querySelector('.checkoutBtn');
+    let checkoutFormContainer = document.querySelector('.checkout-form-container');
+    let cancelButton = document.querySelector('#checkout-cancel');
+
+    checkoutButton.addEventListener('click', function () {
+        // Toggle the checkout form container
+        checkoutFormContainer.classList.toggle('show');
+    });
+
+    cancelButton.addEventListener('click', function () {
+        // Hide the checkout form container
+        checkoutFormContainer.classList.remove('show');
+    });
+
+
+
+
+    let addToCartButtons = document.querySelectorAll('.add-to-cart');
+    let cart = document.querySelector('.cart-content ul');
+    let totalCost = 0;
+
+    function updateTotalCost() {
+        totalCost = 0;
+        Array.from(cart.children).forEach(item => {
+            let itemPrice = item.querySelector('.item-price').innerText;
+            let itemPriceValue = parseFloat(itemPrice.replace(/[^0-9.-]+/g, ""));
+            let quantity = parseInt(item.querySelector('.quantity').value);
+            totalCost += itemPriceValue * quantity;
+        });
+        let checkoutTotalElement = document.querySelector('#checkout-total-price');
+        let totalCostElement = document.querySelector('#totalCostAmount');
+        totalCostElement.innerText = totalCost.toFixed(2);
+        checkoutTotalElement.innerText = totalCost.toFixed(2);
+    }
+
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            let productInfo = this.parentElement;
+            let productName = productInfo.querySelector('h1').innerText;
+            let productPrice = productInfo.children[2].innerText;
+            let productPriceValue = parseFloat(productPrice.replace(/[^0-9.-]+/g, ""));
+
+            let existingCartItem = Array.from(cart.children).find(item => {
+                let itemName = item.querySelector('.item-name').innerText;
+                return itemName === productName;
+            });
+
+            if (existingCartItem) {
+                let quantityElement = existingCartItem.querySelector('.quantity');
+                let quantity = parseInt(quantityElement.value);
+                quantityElement.value = quantity + 1;
+            } else {
+                let cartItem = document.createElement('li');
+                cartItem.className = "cart-item";
+                cartItem.innerHTML = `
+                                    <div class="item-info">
+                                        <h5 class="item-name">${productName}</h5>
+                                        <p class="item-price">${productPrice}</p>
+                                    </div>
+                                    <div class="item-quantity">
+                                        <input type="number" class="quantity" value="1" readonly>
+                                        <button class="add-quantity">+</button>
+                                        <button class="remove-quantity">-</button>
+                                    </div>
+                                    <button class="remove-item">Remove</button>
+                                `;
+                cart.appendChild(cartItem);
+            }
+
+            updateTotalCost();
+        });
+    });
+
+    cart.addEventListener('click', function (event) {
+        if (event.target.classList.contains('add-quantity')) {
+            let quantityElement = event.target.previousElementSibling;
+            let quantity = parseInt(quantityElement.value);
+            quantityElement.value = quantity + 1;
+        } else if (event.target.classList.contains('remove-quantity')) {
+            let quantityElement = event.target.parentElement.querySelector('.quantity');
+            let quantity = parseInt(quantityElement.value);
+            if (quantity > 1) {
+                quantityElement.value = quantity - 1;
+            }
+        } else if (event.target.classList.contains('remove-item')) {
+            let cartItem = event.target.closest('.cart-item');
+            cartItem.remove();
+        }
+
+        updateTotalCost();
+    });
+</script>
+<script src="./scripts/checkout.js"></script>
+
+</html>

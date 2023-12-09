@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script src="../scripts/admin-validate.js" defer></script>
+    <script nonce="<%= nonce %>">
+        // Your inline script here
+    </script>
+</head>
+
+<body>
+    <nav class="nav">
+        <!-- logo   -->
+        <div class="logo">
+            <img src="./images/bread 1.png" alt="">
+        </div>
+        <!-- links -->
+        <div class="nav-links">
+            <a href="#overview-section">Overview</a>
+            <a href="#products-section">Products</a>
+            <a href="#users-section">Users</a>
+            <a href="#transactions">Transactions</a>
+            <a href="#order-history">Delivered</a>
+        </div>
+        <!-- profile -->
+        <div class="profile">
+            <!-- back button -->
+            <a href="/" class="back" style="text-decoration: none; color: var(--secondary-color)">Back</a>
+        </div>
+    </nav>
+
+    <main>
+        <div class="overview" id="overview-section">
+            <h1>System Overview</h1>
+            <div class="overview-content">
+                <div class="overview-item">
+                    <h2>Total Users</h2>
+                    <p><%= totalUsers %></p>
+                </div>
+                <div class="overview-item">
+                    <h2>Total Products</h2>
+                    <p><%= totalProducts %></p>
+                </div>
+                <div class="overview-item">
+                    <h2>Active Users</h2>
+                    <p><%= activeUsers %></p>
+                </div>
+                <div class="overview-item">
+                    <h2>System Uptime</h2>
+                    <p id="systemUptime"><%= systemUptime %></p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="products" id="products-section">
+            <h1>Products Section</h1>
+            <div class="product-controls">
+                <!-- Add Product button -->
+                <button id="add-product">Add</button>
+
+                <!-- Edit Product button -->
+                <button id="edit-product">Edit</button>
+
+                <!-- Delete Product button -->
+                <button id="delete-product">Delete</button>
+            </div>
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% products.forEach(product => { %>
+                    <tr class="product-row">
+                        <td data-th="ID"><%= product.product_id %></td>
+                        <td data-th="Name"><%= product.product_name %></td>
+                        <td data-th="Price"><%= product.price %></td>
+                        <td data-th="Category">
+                            <% if (product.category === 'sc') { %>
+                                Slice Cake
+                            <% } else if (product.category === 'cc') { %>
+                                Cupcake
+                            <% } else if (product.category === 'md') { %>
+                                Mini-Donut
+                            <% } %>
+                        </td>
+                        <td data-th="Quantity"><%= product.qty_stocks %></td>
+                        <td data-th="Description"><%= product.product_description %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+
+
+        <!-- users  -->
+        <div class="users" id="users-section">
+            <h1>Users Section</h1>
+            <div class="user-controls">
+                <!-- Add User button -->
+                <button id="add-user">Add</button>
+
+                <!-- Edit User button -->
+                <button id="edit-user">Edit</button>
+
+                <!-- Delete User button -->
+                <button id="delete-user">Delete</button>
+            </div>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fullname</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Contact Number</th>
+                        <th>Address</th>
+                        <th>Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr class="user-row">
+                            <td class="user-id"><%= user.id %></td>
+                            <td class="user-fullname"><%= user.fullname %></td>
+                            <td class="user-username"><%= user.username %></td>
+                            <td class="user-email"><%= user.email %></td>
+                            <td class="user-password"><%= user.password %></td>
+                            <td class="user-contact-number"><%= user.contact_number %></td>
+                            <td class="user-address"><%= user.address %></td>
+                            <td class="user-role"><%= user.role %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+        
+
+
+
+
+
+
+
+        <div id="transactions">
+            <h1>Transactions</h1>
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th class="order-id">Order ID</th>
+                        <th class="customer">Customer</th>
+                        <th class="delivery-date">Delivery Date</th>
+                        <th class="delivery-time">Delivery Time</th>
+                        <th class="products">Products</th>
+                        <th class="total-price">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% transactions.forEach(function(transaction) { %>
+                        <tr>
+                            <td class="order-id"><%= transaction.id %></td>
+                            <td class="customer"><%= transaction.fullname %></td>
+                            <td class="delivery-date"><%= new Date(transaction.delivery_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %></td>
+                            <td class="delivery-time"><%= new Date('1970-01-01T' + transaction.delivery_time + 'Z').toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></td>
+                            <td class="products">
+                                <select>
+                                    <% transaction.productOrders.forEach(function(productOrder) { %>
+                                        <option><%= productOrder.productName %></option>
+                                    <% }); %>
+                                </select>
+                            </td>
+                            <td class="price"><%= transaction.totalPrice %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+
+
+        <div id="order-history">
+            <h1>Delivered</h1>
+            <table class="order-history-table">
+                <thead>
+                    <tr>
+                        <th class="order-id">Order ID</th>
+                        <th class="customer">Customer</th>
+                        <th class="delivery-date">Delivery Date</th>
+                        <th class="delivery-time">Delivery Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% orderHistory.forEach(function(order) { %>
+                        <tr>
+                            <td class="order-id"><%= order.id %></td>
+                            <td class="customer"><%= order.fullname %></td> <!-- Display user's name instead of their ID -->
+                            <td class="delivery-date"><%= order.delivery_date %></td>
+                            <td class="delivery-time"><%= order.delivery_time %></td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+
+
+        
+    </main>
+    <div class="add-user-modal">    
+        <form id="add-user-form" action="./admin-add" method="POST">
+            <h2>Add User</h2>
+            <div class="inputfield">
+                <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" name="fullname" required>
+            </div>
+            <div class="inputfield">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required autocomplete="username">
+            </div>
+            <div class="inputfield">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="inputfield">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="inputfield">
+                <label for="contact_number">Contact Number</label>
+                <input type="text" id="contact_number" name="contact_number" required>
+            </div>
+            <div class="inputfield">
+                <label for="address">Address</label>
+                <input type="text" id="address" name="address" required autocomplete="street-address">
+            </div>
+            <div class="inputfield">
+                <label for="role">Role</label>
+                <select id="role" name="role" required>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+            </div>
+            <button type="submit">Add User</button>
+            <button class="close-button">Close</button>
+        </form>
+    </div>
+
+    <div class="edit-user-modal">
+        <form id="edit-user-form" action="./admin-edit" method="POST">
+            <h2>Edit User</h2>
+            <input type="hidden" id="edit-user-id" name="edit-user-id">
+            <div class="inputfield">
+                <label for="edit-fullname">Full Name</label>
+                <input type="text" id="edit-fullname" name="edit-fullname" required>
+            </div>
+            <div class="inputfield">
+                <label for="edit-username">Username</label>
+                <input type="text" id="edit-username" name="edit-username" required autocomplete="username">
+            </div>
+            <div class="inputfield">
+                <label for="edit-email">Email</label>
+                <input type="email" id="edit-email" name="edit-email" required autocomplete="email">
+            </div>
+            <div class="inputfield">
+                <label for="edit-password">Password</label>
+                <input type="password" id="edit-password" name="edit-password" required>
+            </div>
+            <div class="inputfield">
+                <label for="edit-contact_number">Contact Number</label>
+                <input type="text" id="edit-contact_number" name="edit-contact_number" required>
+            </div>
+            <div class="inputfield">
+                <label for="edit-address">Address</label>
+                <input type="text" id="edit-address" name="edit-address" required autocomplete="street-address">
+            </div>
+            <div class="inputfield">
+                <label for="edit-role">Role</label>
+                <select id="edit-role" name="edit-role" required>
+                    <option value="admin">Admin</option>
+                    <option value="user">User</option>
+                </select>
+            </div>
+            <button type="submit">Save Changes</button>
+            <button class="close-button" id="close-button-edit">Close</button>
+        </form>
+    </div>
+
+    <div class="add-product-modal">
+        <form id="add-product-form" action="./admin-add-product" method="POST" enctype="multipart/form-data">
+            <h2>Add Product</h2>
+            <div class="inputfield">
+                <label for="product_name">Product Name</label>
+                <input type="text" id="product_name" name="product_name" required>
+            </div>
+            <div class="inputfield">
+                <label for="image">Image</label>
+                <input type="file" id="image" name="image_loc" accept="image/*" required>
+            </div>
+            <div class="inputfield">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="sc">Slice Cake</option>
+                    <option value="cc">Cupcake</option>
+                    <option value="md">Mini-Donut</option>
+                </select>
+            </div>
+            <div class="inputfield">
+                <label for="qtystocks">Quantity in Stocks</label>
+                <input type="number" id="qtystocks" name="qty_stocks" required>
+            </div>
+            <div class="inputfield">
+                <label for="description">Product Description</label>
+                <input type="text" id="description" name="product_description" required>
+            </div>
+            <div class="inputfield">
+                <label for="price">Price</label>
+                <input type="number" id="price" name="price" required>
+            </div>
+            <button type="submit">Add Product</button>
+            <button class="close-button">Close</button>
+        </form>
+    </div>
+    
+    <div class="edit-product-modal">
+        <form id="edit-product-form" action="./admin-edit-product" method="POST">
+            <h2>Edit Product</h2>
+            <input type="hidden" id="edit-product-id" name="edit-product-id" required>
+            <div class="inputfield">
+                <label for="edit-product_name">Product Name</label>
+                <input type="text" id="edit-product_name" name="edit-product_name" >
+            </div>
+            <div class="inputfield">
+                <label for="edit-category">Category</label>
+                <select id="edit-category" name="edit-category" >
+                    <option value="sc">Slice Cake</option>
+                    <option value="cc">Cupcake</option>
+                    <option value="md">Mini-Donut</option>
+                </select>
+            </div>
+            <div class="inputfield">
+                <label for="edit-qtystocks">Quantity in Stocks</label>
+                <input type="number" id="edit-qtystocks" name="edit-qtystocks"  >
+            </div>
+            <div class="inputfield">
+                <label for="edit-description">Product Description</label>
+                <input type="text" id="edit-description" name="edit-product_description" >
+            </div>
+            <div class="inputfield">
+                <label for="edit-price">Price</label>
+                <input type="number" id="edit-price" name="edit-price" >
+            </div>
+            <button type="submit">Save Changes</button>
+            <button class="close-button" type="button">Close</button>
+        </form>
+    </div>  
+    
+</body>
+
+<script src="../scripts/dashboard.js" defer></script>
+</html>

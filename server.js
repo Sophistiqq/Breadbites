@@ -12,7 +12,7 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const MySQLStore = require('express-mysql-session')(session);
 const helmet = require('helmet');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 app.use(express.static('public'));

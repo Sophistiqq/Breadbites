@@ -176,7 +176,7 @@ router.get('/dashboard', isAdmin, (req, res) => {
     });
 });
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 router.post('/admin-add', isAdmin, (req, res) => {
     const { fullname, username, email, password, contact_number, address, role } = req.body;

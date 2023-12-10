@@ -12,6 +12,8 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const MySQLStore = require('express-mysql-session')(session);
 const helmet = require('helmet');
+const bcrypt = require('bcrypt');
+
 
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
@@ -86,16 +88,14 @@ app.use((req, res, next) => {
     next();
 });
 
-// Connect to the database
-
 // Route for user login
 app.post('/login', (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    // Query to check if the username and password match in the database
-    const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
-    db.query(query, [username, password], (err, results) => {
+    // Query to get the user with the given username
+    const query = `SELECT * FROM users WHERE username = ?`;
+    db.query(query, [username], (err, results) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
@@ -103,24 +103,77 @@ app.post('/login', (req, res) => {
         }
 
         if (results.length > 0) {
-            // Set session variables to indicate that the user is logged in
-            req.session.loggedIn = true;
-            req.session.username = username;
-            req.session.userId = results[0].id; // Store user ID in session
-            req.session.email = results[0].email; // Store email in session
-            req.session.contact_number = results[0].contact_number; // Store contact number in session
-            req.session.address = results[0].address; // Store address in session
-            req.session.fullname = results[0].fullname; // Store fullname in session
-            const role = results[0].role; // Get the role from the database results
-            req.session.role = role; // Set the role in the session variables
-            if (role === 'admin') {
-                res.redirect('/');
-            } else {
-                res.redirect('/products');
-            }
+            bcrypt.compare(password, results[0].password, function(err, result) {
+                if (err) {
+                    console.error(err);
+                    res.sendStatus(500);
+                    return;
+                }
+
+                if (result) {
+                    // Passwords match
+                    // Set session variables to indicate that the user is logged in
+                    req.session.loggedIn = true;
+                    req.session.username = username;
+                    req.session.userId = results[0].id; // Store user ID in session
+                    req.session.email = results[0].email; // Store email in session
+                    req.session.contact_number = results[0].contact_number; // Store contact number in session
+                    req.session.address = results[0].address; // Store address in session
+                    req.session.fullname = results[0].fullname; // Store fullname in session
+                    const role = results[0].role; // Get the role from the database results
+                    req.session.role = role; // Set the role in the session variables
+                    if (role === 'admin') {
+                        res.redirect('/');
+                    } else {
+                        res.redirect('/products');
+                    }
+                } else {
+                    // Passwords don't match
+                    res.redirect('/');
+                }
+            });
         } else {
             res.redirect('/');
         }
+    });
+});
+
+
+app.post('/register', (req, res) => {
+    const { username, email, password, contact_number, address, fullname } = req.body;
+    const role = 'user'; // Set the role to "user"
+    // Query to check if the username or email already exists in the database
+    const checkUserQuery = `SELECT * FROM users WHERE username = ? OR email = ?`;
+    db.query(checkUserQuery, [username, email], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.sendStatus(500);
+        }
+
+        if (results.length > 0) {
+            // Redirect to the home page if the username or email already exists
+            return res.redirect('/');
+        }
+
+        // Hash the password
+        bcrypt.hash(password, 10, (err, hashedPassword) => {
+            if (err) {
+                console.error(err);
+                return res.sendStatus(500);
+            }
+
+            // Insert the new user into the database with the hashed password
+            const insertUserQuery = `INSERT INTO users (username, email, password, contact_number, address, fullname, role) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+
+            db.query(insertUserQuery, [username, email, hashedPassword, contact_number, address, fullname, role], (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.sendStatus(500);
+                }
+
+                res.redirect('/');
+            });
+        });
     });
 });
 
@@ -131,53 +184,15 @@ app.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-// Route for user registration
-app.post('/register', (req, res) => {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    const contact_number = req.body.contact_number;
-    const address = req.body.address;
-    const fullname = req.body.fullname;
-    const role = 'user'; // Set the role to "user"
-
-    // Query to check if the username or email already exists in the database
-    const checkUserQuery = `SELECT * FROM users WHERE username = ? OR email = ?`;
-    db.query(checkUserQuery, [username, email], (err, results) => {
-        if (err) {
-            console.error(err);
-            res.sendStatus(500);
-            return;
-        }
-
-        if (results.length > 0) {
-            // Redirect to the home page if the username or email already exists
-            res.redirect('/');
-            return;
-        }
-
-        // Insert the new user into the database
-        const insertUserQuery = `INSERT INTO users (username, email, password, contact_number, address, fullname, role) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-        db.query(insertUserQuery, [username, email, password, contact_number, address, fullname, role], (err) => {
-            if (err) {
-                console.error(err);
-                res.sendStatus(500);
-                return;
-            }
-
-            res.redirect('/');
-        });
-    });
-});
 
 app.post('/change-password', (req, res) => {
     const username = req.session.username; // Get the username from the session
     const currentPassword = req.body.currentPassword; // Get the current password from the request body
     const newPassword = req.body.newPassword; // Get the new password from the request body
 
-    // Query to check if the current password is correct
-    const query = `SELECT * FROM users WHERE username = ? AND password = ?`;
-    db.query(query, [username, currentPassword], (err, results) => {
+    // Query to get the user with the given username
+    const query = `SELECT * FROM users WHERE username = ?`;
+    db.query(query, [username], (err, results) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
@@ -185,21 +200,44 @@ app.post('/change-password', (req, res) => {
         }
 
         if (results.length > 0) {
-            // The current password is correct, so we can update the password
-            const updateQuery = `UPDATE users SET password = ? WHERE username = ?`;
-            db.query(updateQuery, [newPassword, username], (err) => {
+            // Check if the current password is correct
+            bcrypt.compare(currentPassword, results[0].password, (err, isMatch) => {
                 if (err) {
                     console.error(err);
                     res.sendStatus(500);
                     return;
                 }
 
-                // Send a success message
-                res.json({ success: true });
+                if (isMatch) {
+                    // The current password is correct, so we can update the password
+                    // Hash the new password before storing it
+                    bcrypt.hash(newPassword, 10, (err, hashedPassword) => {
+                        if (err) {
+                            console.error(err);
+                            res.sendStatus(500);
+                            return;
+                        }
+
+                        const updateQuery = `UPDATE users SET password = ? WHERE username = ?`;
+                        db.query(updateQuery, [hashedPassword, username], (err) => {
+                            if (err) {
+                                console.error(err);
+                                res.sendStatus(500);
+                                return;
+                            }
+
+                            // Send a success message
+                            res.json({ success: true });
+                        });
+                    });
+                } else {
+                    // The current password is incorrect, so we send an error message
+                    res.json({ success: false, message: 'Current password is incorrect' });
+                }
             });
         } else {
-            // The current password is incorrect, so we send an error message
-            res.json({ success: false, message: 'Current password is incorrect' });
+            // The username does not exist in the database
+            res.json({ success: false, message: 'Username does not exist' });
         }
     });
 });
@@ -683,30 +721,11 @@ app.post('/delivery-done', (req, res) => {
 app.post('/cancel-order', (req, res) => {
     const orderId = req.body.orderId;
     const contactNumber = req.body.contactNumber;
+
     // Query to delete the order items
     const query1 = `DELETE FROM order_items WHERE order_id = ?`;
 
-    // Send confirmation text message using Infobip
-    const headers = {
-        'Authorization': infobipCredentials,
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    };
-    const data = {
-        'from': 'InfoSMS',
-        'to': contactNumber, // Use the contact number from the request body
-        'text': 'Your order has been Cancelled.'
-    };
-    axios.post(infobipUrl, data, { headers: headers })
-        .then(response => {
-            console.log(response.data);
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).send('Server Error');
-            return;
-        });
-
+    // Delete order items
     db.query(query1, [orderId], (err) => {
         if (err) {
             console.error(err);
@@ -714,7 +733,29 @@ app.post('/cancel-order', (req, res) => {
             return;
         }
 
-        // Query to delete the order
+        // Send confirmation text message using Infobip
+        const headers = {
+            'Authorization': infobipCredentials,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        };
+        const data = {
+            'from': 'InfoSMS',
+            'to': contactNumber, // Use the contact number from the request body
+            'text': 'Your order has been Cancelled.'
+        };
+
+        axios.post(infobipUrl, data, { headers: headers })
+            .then(response => {
+                console.log(response.data);
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).send('Server Error');
+                return;
+            });
+
+        // Delete the order
         const query2 = `DELETE FROM orders WHERE id = ?`;
         db.query(query2, [orderId], (err) => {
             if (err) {

@@ -211,7 +211,7 @@
                         <tr>
                             <td class="order-id"><%= order.id %></td>
                             <td class="customer"><%= order.fullname %></td> <!-- Display user's name instead of their ID -->
-                            <td class="delivery-date"><%= order.delivery_date %></td>
+                            <td class="delivery-date"><%= new Date(order.delivery_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %></td>
                             <td class="delivery-time"><%= order.delivery_time %></td>
                         </tr>
                     <% }); %>
@@ -297,7 +297,7 @@
                 </select>
             </div>
             <button type="submit">Save Changes</button>
-            <button class="close-button" id="close-button-edit">Close</button>
+            <button class="close-button" type="button" id="close-button-edit">Close</button>
         </form>
     </div>
 

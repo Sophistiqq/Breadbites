@@ -176,37 +176,57 @@ router.get('/dashboard', isAdmin, (req, res) => {
     });
 });
 
+const bcrypt = require('bcrypt');
 
 router.post('/admin-add', isAdmin, (req, res) => {
     const { fullname, username, email, password, contact_number, address, role } = req.body;
 
-    // Query to insert a new user into the database
-    const query = `INSERT INTO users (fullname, username, email, password, contact_number, address, role) VALUES (?, ?, ?, ?, ?, ?, ?)`;
-    db.query(query, [fullname, username, email, password, contact_number, address, role], (err, results) => {
+    // Hash the password
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
             return;
         }
 
-        res.redirect('/admin/dashboard#users-section');
+        // Query to insert a new user into the database
+        const query = `INSERT INTO users (fullname, username, email, password, contact_number, address, role) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+        db.query(query, [fullname, username, email, hashedPassword, contact_number, address, role], (err, results) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+
+            res.redirect('/admin/dashboard#users-section');
+        });
     });
 });
 
+
 // Route for editing a user
 router.post('/admin-edit', isAdmin, (req, res) => {
-    
     const { 'edit-user-id': userid, 'edit-fullname': fullname, 'edit-username': username, 'edit-email': email, 'edit-password': password, 'edit-contact_number': contact_number, 'edit-address': address, 'edit-role': role } = req.body;
-    // Query to update the user in the database
-    const query = `UPDATE users SET fullname = ?, username = ?, email = ?, password = ?, contact_number = ?, address = ?, role = ? WHERE id = ?`;
-    db.query(query, [fullname, username, email, password, contact_number, address, role, userid], (err, results) => {
+
+    // Hash the password
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
             return;
         }
 
-        res.redirect('/admin/dashboard#users-section');
+        // Query to update the user in the database
+        const query = `UPDATE users SET fullname = ?, username = ?, email = ?, password = ?, contact_number = ?, address = ?, role = ? WHERE id = ?`;
+        db.query(query, [fullname, username, email, hashedPassword, contact_number, address, role, userid], (err, results) => {
+            if (err) {
+                console.error(err);
+                res.sendStatus(500);
+                return;
+            }
+
+            res.redirect('/admin/dashboard#users-section');
+        });
     });
 });
 

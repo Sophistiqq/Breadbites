@@ -350,6 +350,10 @@ body {
     width: 100%;
 }
 
+.checkout-cart {
+    max-height: 30vh;
+    overflow: auto;
+}
 .cart-items {
     min-height: auto;
     overflow-y: auto;

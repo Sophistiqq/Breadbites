@@ -17,7 +17,7 @@ function convertTo24Hour(time) {
 }
 
 window.onload = function() {
-    const editLinks = document.querySelectorAll('.edit a');
+    const editLinks = document.querySelectorAll('.transactions-table .edit a, .transaction-control .edit a');
     const editForm = document.querySelector('#editForm');
     const deliveryDateInput = document.querySelector('#deliveryDate');
     const deliveryTimeInput = document.querySelector('#deliveryTime');
@@ -31,10 +31,10 @@ window.onload = function() {
         link.addEventListener('click', function(e) {
             e.preventDefault();
 
-            const row = this.parentNode.parentNode;
-            const orderId = row.querySelector('.order-id').textContent;
-            const deliveryDate = row.querySelector('.delivery-date').textContent;
-            const deliveryTime = row.querySelector('.delivery-time').textContent;
+            const transaction = this.closest('.transaction') || this.closest('tr');
+            const orderId = this.getAttribute('data-order-id');
+            const deliveryDate = this.getAttribute('data-delivery-date');
+            const deliveryTime = this.getAttribute('data-delivery-time');
 
             // Store the raw data in the object
             rawData = { deliveryDate, deliveryTime };
@@ -66,19 +66,24 @@ window.onload = function() {
         const deliveryDate = deliveryDateInput.value;
         const deliveryTime = deliveryTimeInput.value;
 
-        fetch(`/orders/${orderId}`, {
-            method: 'PUT',
+        fetch('/orders/update', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                orderId,
                 deliveryDate,
                 deliveryTime,
             }),
         })
-        .then(response => response.json())
-        .then(data => {
-            // Update the table with the new delivery details
+        .then(response => {
+            if (response.ok) {
+                // Redirect back to the orders page
+                window.location.href = '/orders';
+            } else {
+                throw new Error('Failed to update order');
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -95,3 +100,10 @@ document.querySelectorAll('.cancel-link').forEach(function(link) {
         }
     });
 });
+
+
+
+
+// Mobile view form functionalities
+
+

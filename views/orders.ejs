@@ -76,11 +76,13 @@
                             </select>
                         </td>
                         <td class="delivery-date"><%= new Date(transaction.delivery_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric' }) %></td>
-                        <td class="delivery-time"><%= new Date('1970-01-01T' + transaction.delivery_time + 'Z').toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></td>
+                        <td class="delivery-time"><%= new Date('1970-01-01T' + transaction.delivery_time).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></td>
                         <td class="quantity"><%= transaction.totalQuantity %></td>
                         <td class="price"><%= transaction.productOrders[0].price %></td>
                         <td class="total-price"><%= transaction.totalPrice %></td>
-                        <td class="edit"><a href="#">Edit</a></td>
+                        <td class="edit"><a href="#" data-order-id="<%= transaction.id %>"
+                            data-delivery-date="<%= transaction.delivery_date %>"
+                            data-delivery-time="<%= transaction.delivery_time %>">Edit</a></td>
                         <td class="cancel"><a href="#" class="cancel-link" data-order-id="<%= transaction.id %>">Cancel</a></td>                
                     </tr>
                 <% }); %>
@@ -110,7 +112,7 @@
                     </div>
                     <div class="delivery-time">
                         <span class="label">Delivery Time:</span>
-                        <span class="value"><%= new Date('1970-01-01T' + transaction.delivery_time + 'Z').toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></span>
+                        <span class="value"><%= new Date('1970-01-01T' + transaction.delivery_time).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true }) %></span>
                     </div>
                     <div class="quantity">
                         <span class="label">Total Quantity:</span>
@@ -130,8 +132,9 @@
                     </div>
                 </div>
                 <div class="transaction-control">
-                    
-                    <span class="edit"><a href="#">Edit</a></span>
+                    <span class="edit"><a href="#" data-order-id="<%= transaction.id %>"
+                            data-delivery-date="<%= transaction.delivery_date %>"
+                            data-delivery-time="<%= transaction.delivery_time %>">Edit</a></span>
                     <span class="cancel"><a href="#" class="cancel-link" data-order-id="<%= transaction.id %>">Cancel</a></span>
                 </div>
             </div>

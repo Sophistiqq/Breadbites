@@ -491,23 +491,25 @@ app.get('/orders/cancel/:orderId', (req, res) => {
 
 
 // Route for updating an order
-app.put('/orders/:orderId', (req, res) => {
-    const orderId = req.params.orderId;
-    const { deliveryDate, deliveryTime } = req.body;
+app.post('/orders/update', (req, res) => {
+    const orderId = req.body.orderId;
+    const deliveryDate = req.body.deliveryDate;
+    const deliveryTime = req.body.deliveryTime;
 
-    // Query to update the order details
-    const query = 'UPDATE orders SET delivery_date = ?, delivery_time = ? WHERE id = ?';
-    db.query(query, [deliveryDate, deliveryTime, orderId], (err, results) => {
+    // Query to update the order
+    const query = `UPDATE orders SET delivery_date = ?, delivery_time = ? WHERE id = ?`;
+    db.query(query, [deliveryDate, deliveryTime, orderId], (err) => {
         if (err) {
             console.error(err);
             res.sendStatus(500);
             return;
         }
 
-        // Send a success message as a JSON response
-        res.json({ success: true });
+        // Redirect back to the orders page
+        res.redirect('/orders');
     });
 });
+
 
 
 // Route for getting product stock

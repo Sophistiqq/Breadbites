@@ -1,9 +1,4 @@
 // Npm run start then browser-sync start --proxy 'localhost:8080' --serveStatic 'public' --files 'public,views'
-
-
-
-
-
 const express = require('express');
 const app = express();
 const ejs = require('ejs');

@@ -24,10 +24,6 @@ const options = {
     cert: fs.readFileSync('cert.pem')
 };
 
-https.createServer(options, app).listen(8080, () => {
-    console.log('Server is running on port https://localhost:8080');
-});
-
 // Configure Content Security Policy
 app.use(
     helmet.contentSecurityPolicy({
